@@ -49,9 +49,10 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.asteroid (
     asteroid_id integer NOT NULL,
-    kecepatan integer,
+    galaxy_id integer,
     name character varying(255) NOT NULL,
-    galaxy_id integer
+    description character varying(255),
+    kecepatan boolean DEFAULT false NOT NULL
 );
 
 
@@ -266,6 +267,9 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: asteroid; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.asteroid VALUES (2, NULL, 'ast1', NULL, false);
+INSERT INTO public.asteroid VALUES (3, NULL, 'ast2', NULL, false);
+INSERT INTO public.asteroid VALUES (4, NULL, 'ast3', NULL, false);
 
 
 --
@@ -346,7 +350,7 @@ INSERT INTO public.star VALUES (10, 49395000, 'blue', 6, 'canopus');
 -- Name: asteroid_asteroid_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.asteroid_asteroid_id_seq', 1, false);
+SELECT pg_catalog.setval('public.asteroid_asteroid_id_seq', 4, true);
 
 
 --
@@ -375,6 +379,14 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 13, true);
 --
 
 SELECT pg_catalog.setval('public.star_star_id_seq', 10, true);
+
+
+--
+-- Name: asteroid asteroid_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.asteroid
+    ADD CONSTRAINT asteroid_name_key UNIQUE (name);
 
 
 --
@@ -407,6 +419,30 @@ ALTER TABLE ONLY public.moon
 
 ALTER TABLE ONLY public.moon
     ADD CONSTRAINT moon_pkey PRIMARY KEY (moon_id);
+
+
+--
+-- Name: galaxy name_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy
+    ADD CONSTRAINT name_unique UNIQUE (name);
+
+
+--
+-- Name: planet name_unique_planet; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT name_unique_planet UNIQUE (name);
+
+
+--
+-- Name: star name_unique_star; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT name_unique_star UNIQUE (name);
 
 
 --
